@@ -13,6 +13,7 @@ class Recipe(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     rating = models.FloatField(default=0.0)
     time = models.CharField(max_length=10) # e.g., "45m"
+
     
     def __str__(self):
         return self.name

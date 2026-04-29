@@ -64,7 +64,6 @@ def register_user(request):
         status=status.HTTP_201_CREATED
     )
 
-# --- OPTIONAL: PROTECTED VIEW FOR TESTING ---
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def protected_view(request):
