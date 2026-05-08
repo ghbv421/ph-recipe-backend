@@ -10,7 +10,7 @@ from .serializers import RecipeSerializer
 
 # --- TASK 3: DATA LISTING ENDPOINT ---
 @api_view(['GET'])
-@permission_classes([AllowAny]) # Anyone can see the recipes on the dashboard
+@permission_classes([AllowAny]) 
 def get_recipes(request):
     """
     Returns the list of recipes (Arroz Caldo, Crispy Lechon, etc.)
@@ -18,29 +18,32 @@ def get_recipes(request):
     """
     recipes = Recipe.objects.all()
     serializer = RecipeSerializer(recipes, many=True)
-    return Response(serializer.data) # Returns JSON response [cite: 11]
+    # Task 3: Returns 200 OK by default with JSON data
+    return Response(serializer.data) 
 
-# --- TASK 3: DATA CREATION ENDPOINT ---
+# --- TASK 4: DATA CREATION ENDPOINT ---
 @api_view(['POST'])
-@permission_classes([IsAuthenticated]) # Requires a login to add new recipes
+@permission_classes([IsAuthenticated]) 
 def add_recipe(request):
     """
     Enables adding new data through the API.
-    Required for CRUD operations.
+    Task 7: Demonstrates Frontend -> API -> Database flow.
     """
     serializer = RecipeSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+        # Task 7 & 8: Explicitly returns 201 Created
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    # Task 8: Returns 400 Bad Request if input is invalid
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# --- TASK 2: AUTHENTICATION (REGISTER) ---
+# --- TASK 6: AUTHENTICATION (REGISTER) ---
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_user(request):
     """
-    User registration system.
-    Creates a new Django User based on provided credentials.
+    User registration system for Task 6.
     """
     username = request.data.get('username')
     password = request.data.get('password')
@@ -68,7 +71,6 @@ def register_user(request):
 @permission_classes([IsAuthenticated])
 def protected_view(request):
     """
-    Restricts access to authenticated users.
-    Used to verify the login system works.
+    Task 6: Verifies that Token Authentication is working.
     """
     return Response({"message": f"Hello {request.user.username}, you are authorized!"})
