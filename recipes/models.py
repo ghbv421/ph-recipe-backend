@@ -2,8 +2,12 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    # Optional: Add an image field for the category card if needed later
-    # image_key = models.CharField(max_length=50, blank=True) 
+    # Added image_key to match the Recipe model structure
+    image_key = models.CharField(
+        max_length=50, 
+        default="default_category", 
+        help_text="Key for local asset mapping (e.g., 'breakfast')"
+    )
 
     class Meta:
         verbose_name_plural = "Categories"
@@ -15,7 +19,7 @@ class Recipe(models.Model):
     name = models.CharField(max_length=100)
     image_key = models.CharField(max_length=50)
     
-    # --- CHANGED: Now points to the Category model ---
+    # ForeignKey links a Recipe to ONE Category
     category = models.ForeignKey(
         Category, 
         on_delete=models.CASCADE, 

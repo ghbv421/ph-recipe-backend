@@ -1,16 +1,27 @@
 from django.contrib import admin
 from .models import Recipe, Category
 
-# Option A: Using the decorator for Recipe to control field order
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    # This controls the order of fields when you click on a recipe to edit it
+    # Field order when editing
     fields = ('name', 'image_key', 'category', 'rating', 'time', 'ingredients')
     
-    # Optional: Adds columns to the list view so you can see info at a glance
+    # Columns shown in the main list view
     list_display = ('name', 'category', 'rating', 'time')
-    # Optional: Adds a filter sidebar for categories
+    
+    # Sidebar filters
     list_filter = ('category',)
+    
+    # Search bar for quick lookup
+    search_fields = ('name', 'ingredients')
 
-# Option B: Simple registration for Category
-admin.site.register(Category)
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    # Controls the order when editing
+    fields = ('name', 'image_key')
+    
+    # Shows both the name and the image key in the list view
+    list_display = ('name', 'image_key')
+    
+    # Allows you to click the name or the image_key to open the edit page
+    list_display_links = ('name',)

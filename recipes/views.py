@@ -5,12 +5,24 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
-from .models import Recipe
-from .serializers import RecipeSerializer
+from .models import Category, Recipe
+from .serializers import RecipeSerializer, CategorySerializer
+
+# --- NEW: CATEGORY LISTING ENDPOINT ---
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_categories(request):
+    """
+    Returns the list of categories (Rice Dishes, Meat & Poultry, etc.)
+    Fixes the ImportError and supports the CategoriesScreen fetch.
+    """
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data)
 
 # --- TASK 3: DATA LISTING ENDPOINT ---
 @api_view(['GET'])
-@permission_classes([AllowAny]) # Anyone can see the recipes on the dashboard
+@permission_classes([AllowAny]) 
 def get_recipes(request):
     """
     Returns the list of recipes (Arroz Caldo, Crispy Lechon, etc.)
@@ -18,11 +30,11 @@ def get_recipes(request):
     """
     recipes = Recipe.objects.all()
     serializer = RecipeSerializer(recipes, many=True)
-    return Response(serializer.data) # Returns JSON response [cite: 11]
+    return Response(serializer.data)
 
 # --- TASK 3: DATA CREATION ENDPOINT ---
 @api_view(['POST'])
-@permission_classes([IsAuthenticated]) # Requires a login to add new recipes
+@permission_classes([IsAuthenticated]) 
 def add_recipe(request):
     """
     Enables adding new data through the API.
@@ -70,6 +82,5 @@ def register_user(request):
 def protected_view(request):
     """
     Restricts access to authenticated users.
-    Used to verify the login system works.
     """
     return Response({"message": f"Hello {request.user.username}, you are authorized!"})
