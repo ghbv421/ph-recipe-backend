@@ -5,6 +5,8 @@
         "Caldo",
         "corsheaders",
         "etep",
-        "Lechon"
+        "Lechon",
+        "pycache",
+        "venv"
     ]
 }
