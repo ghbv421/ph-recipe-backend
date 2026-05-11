@@ -1,9 +1,11 @@
-# recipes/serializers.py
 from rest_framework import serializers
 from .models import Recipe, Category
 
+
+# =========================
+# CATEGORY SERIALIZER
+# =========================
 class CategorySerializer(serializers.ModelSerializer):
-    # This dynamically counts how many recipes belong to this category
     recipe_count = serializers.SerializerMethodField()
 
     class Meta:
@@ -11,22 +13,29 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'image_key', 'recipe_count']
 
     def get_recipe_count(self, obj):
-        # 'recipes' comes from the related_name in your Recipe model ForeignKey
+        # counts related recipes in this category
         return obj.recipes.count()
 
+
+# =========================
+# RECIPE SERIALIZER
+# =========================
 class RecipeSerializer(serializers.ModelSerializer):
-    # This adds the actual name of the category to the JSON response
     category_name = serializers.ReadOnlyField(source='category.name')
 
     class Meta:
-<<<<<<< Updated upstream
         model = Recipe
-        # We list them out to ensure category_name is included
+
+        # MUST MATCH YOUR ACTUAL MODEL FIELDS
         fields = [
-            'id', 'name', 'image_key', 'category', 
-            'category_name', 'rating', 'time', 'ingredients'
+            'id',
+            'name',
+            'image',
+            'image_key',
+            'category',
+            'category_name',
+            'rating',
+            'time',
+            'ingredients',
+            'instructions',
         ]
-=======
-        model  = Recipe
-        fields = '__all__'   # now includes: id, name, description, image, image_key, category, rating, time
->>>>>>> Stashed changes
