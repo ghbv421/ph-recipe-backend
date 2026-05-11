@@ -2,7 +2,6 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    # Added image_key to match the Recipe model structure
     image_key = models.CharField(
         max_length=50, 
         default="default_category", 
@@ -18,14 +17,11 @@ class Category(models.Model):
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
     image_key = models.CharField(max_length=50)
-    
-    # ForeignKey links a Recipe to ONE Category
     category = models.ForeignKey(
         Category, 
         on_delete=models.CASCADE, 
         related_name='recipes'
     )
-    
     rating = models.FloatField(default=0.0)
     time = models.CharField(max_length=10)
     ingredients = models.TextField(
