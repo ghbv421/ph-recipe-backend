@@ -1,20 +1,2 @@
-# Python bytecode (the red files you saw)
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Virtual Environment
-venv/
-env/
-.env
-
-# Databases (Prevents binary merge conflicts)
-db.sqlite3
-
-# Static/Media
-/static/
-/media/
-
-# VS Code settings
-.vscode/
+# Created by venv; see https://docs.python.org/3/library/venv.html
+*
